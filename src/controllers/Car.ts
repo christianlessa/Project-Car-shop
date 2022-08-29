@@ -5,6 +5,14 @@ import { ICar } from '../interfaces/ICar';
 class CarController {
   constructor(private _service: IService<ICar>) { }
 
+  public async read(
+    req: Request & { body: ICar },
+    res: Response<ICar[]>,
+  ) {
+    const cars = await this._service.read();
+    return res.status(200).json(cars);
+  }
+
   public async create(
     req: Request & { body: ICar },
     res: Response<ICar>,
