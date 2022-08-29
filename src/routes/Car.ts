@@ -17,5 +17,10 @@ router.get(
   validationId,
   (req, res) => carController.readOne(req, res),
 );
+router.put(
+  '/cars/:id',
+  validationId,
+  (req, res) => carController.update(req, res),
+);
 
 export default router;

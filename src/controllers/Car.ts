@@ -14,7 +14,7 @@ class CarController {
   }
 
   public async read(
-    req: Request & { body: ICar },
+    req: Request,
     res: Response<ICar[]>,
   ) {
     const cars = await this._service.read();
@@ -22,11 +22,19 @@ class CarController {
   }
 
   public async readOne(
-    req: Request & { body: ICar },
+    req: Request,
     res: Response<ICar | null>,
   ) {
     const carById = await this._service.readOne(req.params.id);
     return res.status(200).json(carById);
+  }
+
+  public async update(
+    req: Request,
+    res: Response<ICar | null>,
+  ) {
+    const result = await this._service.update(req.params.id, req.body);
+    return res.status(200).json(result);
   }
 }
 
