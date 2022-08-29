@@ -11,6 +11,14 @@ class CarService implements IService<ICar> {
     this._car = model;
   }
 
+  public async create(obj: ICar): Promise<ICar> {
+    const parsed = carZodSchema.safeParse(obj);
+    
+    if (!parsed.success) { throw parsed.error; }
+    
+    return this._car.create(obj);
+  }
+
   public async read(): Promise<ICar[]> {
     const cars = await this._car.read();
     if (!cars) throw new Error(ErrorTypes.EntityNotFound);
@@ -18,12 +26,11 @@ class CarService implements IService<ICar> {
     return cars;
   }
 
-  public async create(obj: ICar): Promise<ICar> {
-    const parsed = carZodSchema.safeParse(obj);
+  public async readOne(_id: string): Promise<ICar | null> {
+    const carById = await this._car.readOne(_id);
+    if (!carById) throw new Error(ErrorTypes.EntityNotFound);
 
-    if (!parsed.success) { throw parsed.error; }
-
-    return this._car.create(obj);
+    return carById;
   }
 }
 
